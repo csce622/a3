@@ -27,10 +27,11 @@ public:
   template <typename Graph>
   void discover_vertex(Vertex u, const Graph& g) {
     typedef typename graph_traits<Graph>::out_edge_iterator Iter;
-    typedef typename property_map<Graph, vertex_index_t>::type IndexMap;
+    //typedef typename property_map<Graph, vertex_index_t>::type IndexMap;
     Iter ei, ei_end;
     tie(ei, ei_end) = out_edges(u, g);
-    IndexMap index = get(vertex_index, g);
+    //IndexMap index = get(vertex_index, g);
+    //std::cout<<"discover_vertex "<<NAME[index[u]]<<std::endl;
     if (u == mytarget) {
       while (ei != ei_end) {
         Vertex v = target(*ei, g);
@@ -47,10 +48,8 @@ public:
   template <typename Graph>
   void finish_vertex(Vertex u, const Graph& g) {
     typedef typename graph_traits<Graph>::out_edge_iterator Iter;
-    typedef typename property_map<Graph, vertex_index_t>::type IndexMap;
     Iter ei, ei_end;
     tie(ei, ei_end) = out_edges(u,g);
-    IndexMap index = get(vertex_index, g);
     while (ei != ei_end) {
       Vertex v = target(*ei, g);
       mycount[u] += mycount[v];
@@ -76,7 +75,7 @@ path_count(Graph& g,
   typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
   try {
     path_counter_visitor<Vertex> vis(s, t);  
-    depth_first_search(g, visitor(vis));
+    depth_first_search(g, visitor(vis).root_vertex(s));
   }
   catch (typename graph_traits<Graph>::edges_size_type count) {
 //    std::cout << "number of paths is " << count << std::endl; 
