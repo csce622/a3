@@ -6,12 +6,14 @@
  * @date November 1, 2010
  */
 
-#include <iostream>                  // for std::cout
-#include <utility>                   // for std::pair
+#ifndef PATH_COUNT_HPP
+#define PATH_COUNT_HPP
+
+#include <iostream>
+#include <exception>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/depth_first_search.hpp>
-#include <exception>
 
 using namespace boost;
 
@@ -66,6 +68,7 @@ path_count(Graph& g,
            typename graph_traits<Graph>::vertex_descriptor s, 
            typename graph_traits<Graph>::vertex_descriptor t)
 {
+  if (s == t) return 0;
   typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
   try {
     path_counter_visitor<Vertex> vis(s, t);  
@@ -77,3 +80,4 @@ path_count(Graph& g,
   }
 }
 
+#endif // PATH_COUNT_HPP

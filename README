@@ -1,2 +1,11 @@
+[+] Build
 Boost must be installed in your home directory to be able do use the Makefile
+Then do a
+$ make p1
+                                          
+[+] Vizualization of the graphs
+Install graphviz (http://www.graphviz.org/) 
+Then for the random graph generated in p3.cpp for instance run
+$ dot randomgraph.dot -Tps -o randomgraph.ps
+
 -Damien

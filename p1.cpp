@@ -62,5 +62,8 @@ int main(int,char*[])
   std::cout << "path_count(g, R, X) -> ";
   std::cout << path_count(g, R, X) << std::endl;
 
+  std::cout << "path_count(g, X, X) -> ";
+  std::cout << path_count(g, X, X) << std::endl;
+
   return 0;
 }
