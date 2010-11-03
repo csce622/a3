@@ -8,4 +8,9 @@ Install graphviz (http://www.graphviz.org/)
 Then for the random graph generated in p3.cpp for instance run
 $ dot randomgraph.dot -Tps -o randomgraph.ps
 
+[+] Linking problem
+Please try to compile the boost example and let me know if it works for you
+$ g++ -I ~/boost/ -c read_graphviz.cpp
+$ g++ read_graphviz.o ~/boost/stage/lib/libboost_graph.a
+
 -Damien
