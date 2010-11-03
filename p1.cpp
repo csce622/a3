@@ -6,83 +6,17 @@
  * @date November 1, 2010
  */
 
-#include <iostream>                  // for std::cout
-#include <utility>                   // for std::pair
-#include <algorithm>                 // for std::for_each
+#include <iostream>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/depth_first_search.hpp>
 #include <exception>
 
+#include "path_count.hpp"
+
 using namespace boost;
 
 const char* NAME = "MNPQUOTSRYVXWZ";
-
-template <typename Vertex>
-class path_counter_visitor : public default_dfs_visitor {
-public:
-  path_counter_visitor() {}
-  path_counter_visitor(Vertex s, Vertex t) : mysource(s), mytarget(t), mycount() {}
-
-  template <typename Graph>
-  void discover_vertex(Vertex u, const Graph& g) {
-    typedef typename graph_traits<Graph>::out_edge_iterator Iter;
-    //typedef typename property_map<Graph, vertex_index_t>::type IndexMap;
-    Iter ei, ei_end;
-    tie(ei, ei_end) = out_edges(u, g);
-    //IndexMap index = get(vertex_index, g);
-    //std::cout<<"discover_vertex "<<NAME[index[u]]<<std::endl;
-    if (u == mytarget) {
-      while (ei != ei_end) {
-        Vertex v = target(*ei, g);
-        finish_vertex(v, g);
-        ++ei;
-      }
-      mycount[u] = 1;
-    }
-    else {
-      mycount[u] = 0;
-    }
-  }
-
-  template <typename Graph>
-  void finish_vertex(Vertex u, const Graph& g) {
-    typedef typename graph_traits<Graph>::out_edge_iterator Iter;
-    Iter ei, ei_end;
-    tie(ei, ei_end) = out_edges(u,g);
-    while (ei != ei_end) {
-      Vertex v = target(*ei, g);
-      mycount[u] += mycount[v];
-      ++ei;
-    }
-    if (u == mysource) {
-      throw mycount[u];
-    }
-  }
-
-private:
-  std::map<int, Vertex> mycount;
-  Vertex mysource;
-  Vertex mytarget;
-};
-
-template <typename Graph> 
-typename graph_traits<Graph>::edges_size_type 
-path_count(Graph& g, 
-           typename graph_traits<Graph>::vertex_descriptor s, 
-           typename graph_traits<Graph>::vertex_descriptor t)
-{
-  typedef typename graph_traits<Graph>::vertex_descriptor Vertex;
-  try {
-    path_counter_visitor<Vertex> vis(s, t);  
-    depth_first_search(g, visitor(vis).root_vertex(s));
-  }
-  catch (typename graph_traits<Graph>::edges_size_type count) {
-//    std::cout << "number of paths is " << count << std::endl; 
-    return count;
-  }
-}
-
 
 int main(int,char*[])
 {
@@ -91,7 +25,7 @@ int main(int,char*[])
   std::cout << "######  \n";
 
   // create a typedef for the Graph type
-  typedef adjacency_list<vecS, vecS, bidirectionalS> Graph;
+  typedef adjacency_list<vecS, vecS, directedS> Graph;
 
   // Make convenient labels for the vertices
   enum { M, N, P, Q, U, O, T, S, R, Y, V, X, W, Z, A };
