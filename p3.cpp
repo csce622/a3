@@ -63,7 +63,7 @@ int main(int argc,char* argv[])
               << "," << index[target(*ei, g)] << ") ";
   std::cout << std::endl;
 
-  // print graph in dot format to a file 
+  // print to file graph in dot format 
   std::string filename = "randomgraph.dot";
   std::ofstream fout;
   fout.open(filename.c_str());
