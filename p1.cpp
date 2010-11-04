@@ -7,10 +7,12 @@
  */
 
 #include <iostream>
+#include <exception>
+#include <string>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/depth_first_search.hpp>
-#include <exception>
+#include <boost/graph/graphviz.hpp>
 
 #include "path_count.hpp"
 
@@ -24,14 +26,11 @@ int main(int,char*[])
   std::cout << " # p1 # \n";
   std::cout << "######  \n";
 
-  // create a typedef for the Graph type
+  // Create a graph (same as in p1.cpp)
+  std::cout << "\n[+] building the graph shown in assignment 3 \n";
   typedef adjacency_list<vecS, vecS, directedS> Graph;
-
-  // Make convenient labels for the vertices
   enum { M, N, P, Q, U, O, T, S, R, Y, V, X, W, Z, A };
   const int num_vertices = A;
-
-  // writing out the edges in the graph
   typedef std::pair<int, int> Edge;
   Edge edge_array[] = 
   { Edge(M,X), Edge(M,R), Edge(M,Q),
@@ -42,13 +41,12 @@ int main(int,char*[])
     Edge(S,R), Edge(R,Y), Edge(Y,V),
     Edge(V,X), Edge(V,W), Edge(W,Z) };
   const int num_edges = sizeof(edge_array)/sizeof(edge_array[0]);
-
-  // declare a graph object
   Graph g(num_vertices);
-
-  // add the edges to the graph object
   for (int i = 0; i < num_edges; ++i)
     add_edge(edge_array[i].first, edge_array[i].second, g);
+
+  // Test the algorithm path_count() on the graph
+  std::cout << "\n[+] applying the algorithm path_count() to the graph \n";
 
   std::cout << "path_count(g, P, V) -> ";
   std::cout << path_count(g, P, V) << std::endl;
@@ -64,6 +62,16 @@ int main(int,char*[])
 
   std::cout << "path_count(g, X, X) -> ";
   std::cout << path_count(g, X, X) << std::endl;
+
+  // Print the graph to a file
+  std::cout << "\n[+] printing g to a file \n";
+  std::string filename = "mygraph.dot";
+  std::ofstream fout;
+  fout.open(filename.c_str());
+  write_graphviz(fout, g);
+  // uncomment following line to print to the screen
+  //write_graphviz(std::cout, g, make_label_writer(NAME));
+  fout.close();
 
   return 0;
 }
