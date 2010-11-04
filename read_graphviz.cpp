@@ -57,5 +57,7 @@ int main() {
 
   bool status = read_graphviz(gvgraph,graph,dp,"node_id");
 
+  write_graphviz(std::cout,graph);
+
   return 0;
 }

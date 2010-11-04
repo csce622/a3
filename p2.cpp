@@ -13,7 +13,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graphviz.hpp>
 
-#include "path_count.hpp"
+//#include "path_count.hpp"
 
 using namespace boost;
 
@@ -64,7 +64,7 @@ int main(int,char*[])
   fin.open(filename.c_str());
   
 
-  //read_graphviz(fin, g, dp);
+  read_graphviz(fin, g, dp);
 
   return 0;
 }

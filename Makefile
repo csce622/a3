@@ -13,10 +13,8 @@ p1: p1.cpp \
 p2: p2.cpp \
 	path_count.hpp
 
-	g++ p2.cpp \
-		-o p2 \
-		-I ~/boost/ \
-#		~/boost/stage/lib/libboost_graph.a
+	g++ -I ~/boost/ -c p2.cpp
+	g++ p2.o -o p2 -L/Users/dalg24/boost/stage/lib/ -lboost_graph -lboost_regex
 
 p3: p3.cpp \
 	path_count.hpp
